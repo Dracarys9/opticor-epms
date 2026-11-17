@@ -18,6 +18,7 @@
     currentView = titles[view] ? view : "dashboard";
     window.EpmsDashboard.unmount();
     window.EpmsTrccLayout.unmount();
+    window.EpmsTrends.unmount();
     document.querySelectorAll(".nav-item").forEach((item) => {
       item.classList.toggle("active", item.dataset.viewTarget === currentView);
     });
@@ -26,6 +27,8 @@
       window.EpmsDashboard.mount();
     } else if (currentView === "trcc") {
       window.EpmsTrccLayout.mount();
+    } else if (currentView === "trends") {
+      window.EpmsTrends.mount();
     } else {
       document.getElementById("workspace").innerHTML =
         `<div class="status-bar"><span class="status-dot"></span><span>All online Opticor units operating normally</span></div>
