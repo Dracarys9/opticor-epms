@@ -30,7 +30,7 @@
         </div>
         <div class="dashboard-columns">
           <div class="dashboard-left">
-            <article class="panel plant-panel"><div class="panel-heading"><h2>ESP PLANT LAYOUT</h2><a href="#" data-dashboard-nav="trcc">Full TRCC Grid →</a></div><div class="plant-grid dashboard-plant-grid">${state.units.map((unit) => `<button class="plant-unit ${statusClass(unit.status)}" data-unit-id="${unit.id}" title="${unit.name} · ${unit.status}">${unit.id.slice(-2)}</button>`).join("")}</div><div class="legend"><span><i class="legend-online"></i>Normal</span><span><i class="legend-alarm"></i>Alarm</span><span><i class="legend-trip"></i>Trip</span><span><i class="legend-off"></i>Off</span></div></article>
+            <article class="panel plant-panel"><div class="panel-heading"><h2>ESP PLANT LAYOUT</h2><a href="#" data-dashboard-nav="trcc">Full TRCC Grid →</a></div><div class="plant-grid dashboard-plant-grid">${[1, 2, 3, 4, 5, 6].map((field) => `<div class="plant-field-row"><span class="row-label">F${field}</span>${state.units.filter((unit) => unit.field === field).map((unit) => `<button class="plant-unit ${statusClass(unit.status)}" data-unit-id="${unit.id}" title="${unit.name} · ${unit.status}">${unit.id.slice(-2)}</button>`).join("")}</div>`).join("")}</div><div class="legend"><span><i class="legend-online"></i>Normal</span><span><i class="legend-alarm"></i>Alarm</span><span><i class="legend-trip"></i>Trip</span><span><i class="legend-off"></i>Off</span></div></article>
             <article class="panel summary-panel"><div class="panel-heading"><h2>FIELD SUMMARY</h2><a href="#" data-dashboard-nav="power">Power Summary →</a></div></article>
           </div>
           <div class="dashboard-right">
