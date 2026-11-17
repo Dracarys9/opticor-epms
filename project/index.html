@@ -59,36 +59,11 @@
       </div>
     </aside>
 
-    <main class="workspace">
-      <div class="status-bar"><span class="status-dot"></span><span>All 0 online Opticor units operating normally</span></div>
-      <header class="topbar"><h1 id="page-title">Dashboard</h1><div class="topbar-actions"><span class="live"><i></i> LIVE</span><span class="clock">07:52:47 am</span><button class="outline-button" data-view-target="plan" type="button">▣ &nbsp; Plan Layout</button></div></header>
-
-      <section class="view active-view" data-view="dashboard" aria-labelledby="page-title">
-        <div class="stat-grid">
-          <article class="stat-card green"><span>UNITS ONLINE</span><strong>0</strong><small>of 72 total</small></article>
-          <article class="stat-card red"><span>TRIP ACTIVE</span><strong>0</strong><small>Immediate attention</small></article>
-          <article class="stat-card amber"><span>ALARMS ACTIVE</span><strong>0</strong><small>Warning conditions</small></article>
-          <article class="stat-card blue"><span>TOTAL POWER</span><strong>0.0</strong><small>kW aggregate</small></article>
-          <article class="system-card"><div class="card-title">SYSTEM STATUS</div><dl><div><dt>Modbus RTU</dt><dd class="chip green-chip">RS-485</dd></div><div><dt>Baud Rate</dt><dd>9600 BPS</dd></div><div><dt>Data Feed</dt><dd class="chip green-chip">SIMULATED</dd></div><div><dt>Update Rate</dt><dd>5 SEC</dd></div><div><dt>Simulator</dt><dd class="chip green-chip"><i></i> RUNNING</dd></div></dl></article>
-        </div>
-        <div class="dashboard-columns">
-          <article class="panel plant-panel"><div class="panel-heading"><h2>ESP PLANT LAYOUT</h2><span>Full TRCC Grid →</span></div><div class="plant-grid" aria-label="ESP plant unit grid"></div><div class="legend"><span><i class="legend-online"></i>Normal</span><span><i class="legend-alarm"></i>Alarm</span><span><i class="legend-trip"></i>Trip</span><span><i class="legend-off"></i>Off</span></div></article>
-          <article class="panel alarms-panel"><div class="panel-heading"><h2>RECENT ALARMS</h2><a href="#" data-view-target="alarms">VIEW ALL →</a></div><div class="alarm-list"><div class="alarm-row trip"><b>TRIP</b><div><strong>OPTICOR_51</strong><span>HT Interlock Open · 07:52:48 am</span></div></div><div class="alarm-row trip"><b>TRIP</b><div><strong>OPTICOR_51</strong><span>Primary UV Trip · 07:52:46 am</span></div></div><div class="alarm-row alarm"><b>ALARM</b><div><strong>OPTICOR_38</strong><span>Fan Temperature · 07:52:16 am</span></div></div><div class="alarm-row trip"><b>TRIP</b><div><strong>OPTICOR_22</strong><span>Primary OC Trip · 07:52:08 am</span></div></div><div class="alarm-row alarm"><b>ALARM</b><div><strong>OPTICOR_34</strong><span>Busbar Trip · 07:52:21 am</span></div></div><div class="alarm-row trip"><b>TRIP</b><div><strong>OPTICOR_07</strong><span>Pressure Trip · 07:52:16 am</span></div></div><div class="alarm-row trip"><b>TRIP</b><div><strong>OPTICOR_07</strong><span>SDI Temp High Trip · 07:52:19 am</span></div></div></div></article>
-        </div>
-        <article class="panel summary-panel"><div class="panel-heading"><h2>FIELD SUMMARY</h2><span>Power Summary →</span></div></article>
-      </section>
-
-      <section class="view placeholder-view" data-view="plan"><div class="empty-card"><span class="empty-icon">▦</span><h2>Plan Layout</h2><p>Plant floor layout and equipment status will appear here.</p></div></section>
-      <section class="view placeholder-view" data-view="trcc"><div class="empty-card"><span class="empty-icon">⌗</span><h2>TRCC Layout</h2><p>TRCC equipment overview is ready for configuration.</p></div></section>
-      <section class="view placeholder-view" data-view="trends"><div class="empty-card"><span class="empty-icon">⌁</span><h2>Trends &amp; Analysis</h2><p>Trend charts and operational analysis will appear here.</p></div></section>
-      <section class="view placeholder-view" data-view="power"><div class="empty-card"><span class="empty-icon">ϟ</span><h2>Power Summary</h2><p>Power distribution and consumption summaries will appear here.</p></div></section>
-      <section class="view placeholder-view" data-view="energy"><div class="empty-card"><span class="empty-icon">◒</span><h2>Energy Management</h2><p>Energy management controls are ready for configuration.</p></div></section>
-      <section class="view placeholder-view" data-view="rapper"><div class="empty-card"><span class="empty-icon">≋</span><h2>Rapper Control</h2><p>Rapper control commands and status will appear here.</p></div></section>
-      <section class="view placeholder-view" data-view="alarms"><div class="empty-card"><span class="empty-icon">◉</span><h2>Alarms &amp; Notifications</h2><p>Alarm history and event notifications will appear here.</p></div></section>
-      <section class="view placeholder-view" data-view="configuration"><div class="empty-card"><span class="empty-icon">⚙</span><h2>Configuration</h2><p>System and simulator configuration will appear here.</p></div></section>
-    </main>
+    <main class="workspace" id="workspace"></main>
   </div>
   <script src="js/store.js"></script>
+  <script src="js/views/dashboard.js"></script>
+  <script src="js/views/trccLayout.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

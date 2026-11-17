@@ -1,9 +1,6 @@
-(function () {
+(function (window) {
   "use strict";
 
-  const navItems = document.querySelectorAll("[data-view-target]");
-  const views = document.querySelectorAll("[data-view]");
-  const pageTitle = document.getElementById("page-title");
   const titles = {
     dashboard: "Dashboard",
     plan: "Plan Layout",
@@ -15,35 +12,32 @@
     alarms: "Alarms & Events",
     configuration: "Configuration"
   };
+  let currentView = "dashboard";
 
-  const plantGrid = document.querySelector(".plant-grid");
-  for (let floor = 1; floor <= 6; floor += 1) {
-    const label = document.createElement("span");
-    label.className = "row-label";
-    label.textContent = "F" + floor;
-    plantGrid.appendChild(label);
-    for (let unit = 1; unit <= 12; unit += 1) {
-      const cell = document.createElement("span");
-      cell.textContent = String((floor - 1) * 12 + unit).padStart(2, "0");
-      plantGrid.appendChild(cell);
+  function navigate(view) {
+    currentView = titles[view] ? view : "dashboard";
+    window.EpmsDashboard.unmount();
+    window.EpmsTrccLayout.unmount();
+    document.querySelectorAll(".nav-item").forEach((item) => {
+      item.classList.toggle("active", item.dataset.viewTarget === currentView);
+    });
+
+    if (currentView === "dashboard") {
+      window.EpmsDashboard.mount();
+    } else if (currentView === "trcc") {
+      window.EpmsTrccLayout.mount();
+    } else {
+      document.getElementById("workspace").innerHTML =
+        `<div class="status-bar"><span class="status-dot"></span><span>All online Opticor units operating normally</span></div>
+        <header class="topbar"><h1>${titles[currentView]}</h1></header>
+        <section class="placeholder-view"><div class="empty-card"><span class="empty-icon">◉</span><h2>${titles[currentView]}</h2><p>This view is ready for configuration.</p></div></section>`;
     }
   }
 
-  function showView(name) {
-    const selected = titles[name] ? name : "dashboard";
-    views.forEach((view) => {
-      view.classList.toggle("active-view", view.dataset.view === selected);
-    });
-    document.querySelectorAll(".nav-item").forEach((item) => {
-      item.classList.toggle("active", item.dataset.viewTarget === selected);
-    });
-    pageTitle.textContent = titles[selected];
-  }
-
-  navItems.forEach((item) => {
-    item.addEventListener("click", function (event) {
-      event.preventDefault();
-      showView(item.dataset.viewTarget);
-    });
+  document.querySelectorAll(".nav-item").forEach((item) => {
+    item.addEventListener("click", () => navigate(item.dataset.viewTarget));
   });
-}());
+  window.addEventListener("epms:navigate", (event) => navigate(event.detail));
+  window.addEventListener("epms:select-unit", (event) => window.EpmsTrccLayout.selectUnit(event.detail));
+  window.setTimeout(() => navigate("dashboard"), 0);
+}(window));
