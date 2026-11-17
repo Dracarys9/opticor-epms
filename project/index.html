@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OPTICOR EPMS - Power Management System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Primary navigation">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M5 4h5v16H5zM14 4h5v7h-5zM14 14h5v6h-5z"/><path d="M6.5 7h2M15.5 7h2M15.5 17h2" class="mark-cut"/></svg>
+        </div>
+        <div>
+          <strong>OPTICOR EPMS</strong>
+          <span>POWER MGMT SYSTEM</span>
+        </div>
+      </div>
+
+      <nav class="nav-list">
+        <button class="nav-item active" data-view-target="dashboard" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10.5 12 4l8 6.5v8a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><path d="M9 20v-6h6v6"/></svg><span>Dashboard</span>
+        </button>
+        <button class="nav-item" data-view-target="plan" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM4 10h16M9 5v14M15 5v14"/></svg><span>Plan Layout</span>
+        </button>
+        <button class="nav-item" data-view-target="trcc" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4v16M18 4v16M6 8h12M6 16h12M12 8v8"/></svg><span>TRCC Layout</span>
+        </button>
+        <button class="nav-item" data-view-target="trends" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 17 5-5 3 3 7-8"/><path d="M15 7h4v4"/></svg><span>Trends &amp; Analysis</span>
+        </button>
+        <button class="nav-item" data-view-target="power" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3 6 13h5l-1 8 8-11h-5z"/></svg><span>Power Summary</span>
+        </button>
+        <button class="nav-item" data-view-target="energy" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M6 7c0-2 2.5-3 6-3s6 1 6 3-2.5 3-6 3-6 1-6 3 2.5 3 6 3 6-1 6-3"/></svg><span>Energy Mgmt</span>
+        </button>
+        <button class="nav-item" data-view-target="rapper" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5v14M17 5v14M4 8h6M14 8h6M4 16h6M14 16h6"/></svg><span>Rapper Control</span>
+        </button>
+        <button class="nav-item" data-view-target="alarms" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 17h12l-1.2-2v-4a4.8 4.8 0 0 0-9.6 0v4zM10 20h4"/><path d="M12 3v1"/></svg><span>Alarms &amp; Events</span><b class="unread-badge">8</b>
+        </button>
+        <button class="nav-item" data-view-target="configuration" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z"/><path d="m19 13 1.5 1-2 3.5-1.7-.7a7 7 0 0 1-1.5.9L15 19.5h-4l-.3-1.8a7 7 0 0 1-1.5-.9l-1.7.7-2-3.5L7 13a7 7 0 0 1 0-2L5.5 10l2-3.5 1.7.7a7 7 0 0 1 1.5-.9L11 4.5h4l.3 1.8a7 7 0 0 1 1.5.9l1.7-.7 2 3.5-1.5 1a7 7 0 0 1 0 2Z"/></svg><span>Configuration</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-details"><div class="avatar">S</div><div><strong>supervisor</strong><span>Supervisor</span></div></div>
+        <button class="logout" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 5H5v14h5M14 8l4 4-4 4M8 12h10"/></svg>Logout</button>
+      </div>
+    </aside>
+
+    <main class="workspace">
+      <div class="status-bar"><span class="status-dot"></span><span>All 0 online Opticor units operating normally</span></div>
+      <header class="topbar"><h1 id="page-title">Dashboard</h1><div class="topbar-actions"><span class="live"><i></i> LIVE</span><span class="clock">07:52:47 am</span><button class="outline-button" data-view-target="plan" type="button">▣ &nbsp; Plan Layout</button></div></header>
+
+      <section class="view active-view" data-view="dashboard" aria-labelledby="page-title">
+        <div class="stat-grid">
+          <article class="stat-card green"><span>UNITS ONLINE</span><strong>0</strong><small>of 72 total</small></article>
+          <article class="stat-card red"><span>TRIP ACTIVE</span><strong>0</strong><small>Immediate attention</small></article>
+          <article class="stat-card amber"><span>ALARMS ACTIVE</span><strong>0</strong><small>Warning conditions</small></article>
+          <article class="stat-card blue"><span>TOTAL POWER</span><strong>0.0</strong><small>kW aggregate</small></article>
+          <article class="system-card"><div class="card-title">SYSTEM STATUS</div><dl><div><dt>Modbus RTU</dt><dd class="chip green-chip">RS-485</dd></div><div><dt>Baud Rate</dt><dd>9600 BPS</dd></div><div><dt>Data Feed</dt><dd class="chip green-chip">SIMULATED</dd></div><div><dt>Update Rate</dt><dd>5 SEC</dd></div><div><dt>Simulator</dt><dd class="chip green-chip"><i></i> RUNNING</dd></div></dl></article>
+        </div>
+        <div class="dashboard-columns">
+          <article class="panel plant-panel"><div class="panel-heading"><h2>ESP PLANT LAYOUT</h2><span>Full TRCC Grid →</span></div><div class="plant-grid" aria-label="ESP plant unit grid"></div><div class="legend"><span><i class="legend-online"></i>Normal</span><span><i class="legend-alarm"></i>Alarm</span><span><i class="legend-trip"></i>Trip</span><span><i class="legend-off"></i>Off</span></div></article>
+          <article class="panel alarms-panel"><div class="panel-heading"><h2>RECENT ALARMS</h2><a href="#" data-view-target="alarms">VIEW ALL →</a></div><div class="alarm-list"><div class="alarm-row trip"><b>TRIP</b><div><strong>OPTICOR_51</strong><span>HT Interlock Open · 07:52:48 am</span></div></div><div class="alarm-row trip"><b>TRIP</b><div><strong>OPTICOR_51</strong><span>Primary UV Trip · 07:52:46 am</span></div></div><div class="alarm-row alarm"><b>ALARM</b><div><strong>OPTICOR_38</strong><span>Fan Temperature · 07:52:16 am</span></div></div><div class="alarm-row trip"><b>TRIP</b><div><strong>OPTICOR_22</strong><span>Primary OC Trip · 07:52:08 am</span></div></div><div class="alarm-row alarm"><b>ALARM</b><div><strong>OPTICOR_34</strong><span>Busbar Trip · 07:52:21 am</span></div></div><div class="alarm-row trip"><b>TRIP</b><div><strong>OPTICOR_07</strong><span>Pressure Trip · 07:52:16 am</span></div></div><div class="alarm-row trip"><b>TRIP</b><div><strong>OPTICOR_07</strong><span>SDI Temp High Trip · 07:52:19 am</span></div></div></div></article>
+        </div>
+        <article class="panel summary-panel"><div class="panel-heading"><h2>FIELD SUMMARY</h2><span>Power Summary →</span></div></article>
+      </section>
+
+      <section class="view placeholder-view" data-view="plan"><div class="empty-card"><span class="empty-icon">▦</span><h2>Plan Layout</h2><p>Plant floor layout and equipment status will appear here.</p></div></section>
+      <section class="view placeholder-view" data-view="trcc"><div class="empty-card"><span class="empty-icon">⌗</span><h2>TRCC Layout</h2><p>TRCC equipment overview is ready for configuration.</p></div></section>
+      <section class="view placeholder-view" data-view="trends"><div class="empty-card"><span class="empty-icon">⌁</span><h2>Trends &amp; Analysis</h2><p>Trend charts and operational analysis will appear here.</p></div></section>
+      <section class="view placeholder-view" data-view="power"><div class="empty-card"><span class="empty-icon">ϟ</span><h2>Power Summary</h2><p>Power distribution and consumption summaries will appear here.</p></div></section>
+      <section class="view placeholder-view" data-view="energy"><div class="empty-card"><span class="empty-icon">◒</span><h2>Energy Management</h2><p>Energy management controls are ready for configuration.</p></div></section>
+      <section class="view placeholder-view" data-view="rapper"><div class="empty-card"><span class="empty-icon">≋</span><h2>Rapper Control</h2><p>Rapper control commands and status will appear here.</p></div></section>
+      <section class="view placeholder-view" data-view="alarms"><div class="empty-card"><span class="empty-icon">◉</span><h2>Alarms &amp; Notifications</h2><p>Alarm history and event notifications will appear here.</p></div></section>
+      <section class="view placeholder-view" data-view="configuration"><div class="empty-card"><span class="empty-icon">⚙</span><h2>Configuration</h2><p>System and simulator configuration will appear here.</p></div></section>
+    </main>
+  </div>
+  <script src="js/app.js"></script>
+</body>
+</html>

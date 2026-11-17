@@ -1,0 +1,13 @@
+:root {
+  --sidebar-width: 240px;
+  --red: #dc2626;
+  --red-soft: #fee2e2;
+  --ink: #1e293b;
+  --muted: #64748b;
+  --line: #e2e8f0;
+  --workspace: #f4f6f9;
+  --green: #16a34a;
+  --amber: #f59e0b;
+  --blue: #2563eb;
+  --mono: "JetBrains Mono", monospace;
+}
