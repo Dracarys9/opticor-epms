@@ -55,6 +55,12 @@
       if (item.dataset.simAction === "inject") window.EpmsStore.injectUnitFault(selectedId);
       if (item.dataset.simAction === "clear") window.EpmsStore.clearUnitFaults(selectedId);
     }));
+    const trendsButton = document.querySelector(".trends-button");
+    if (trendsButton) {
+      trendsButton.addEventListener("click", function () {
+        window.dispatchEvent(new CustomEvent("epms:navigate", { detail: "trends" }));
+      });
+    }
   }
 
   function mount() {

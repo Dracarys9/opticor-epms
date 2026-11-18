@@ -13,16 +13,20 @@
     catch (error) { return "light"; }
   }
 
-  function applyTheme(theme) {
-    document.documentElement.dataset.theme = theme;
-    try { localStorage.setItem("opticor-theme", theme); } catch (error) {}
-    document.querySelectorAll("[data-theme-toggle]").forEach((button) => {
+  function syncThemeControls(theme) {
+    document.querySelectorAll("[data-theme-toggle]").forEach(function (button) {
       button.innerHTML = theme === "dark"
         ? '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg>'
         : '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 15.5A8 8 0 0 1 8.5 4 8.5 8.5 0 1 0 20 15.5Z"/></svg>';
       button.setAttribute("aria-label", theme === "dark" ? "Switch to light mode" : "Switch to dark mode");
       button.title = theme === "dark" ? "Light mode" : "Dark mode";
     });
+  }
+
+  function applyTheme(theme) {
+    document.documentElement.dataset.theme = theme;
+    try { localStorage.setItem("opticor-theme", theme); } catch (error) {}
+    syncThemeControls(theme);
     window.dispatchEvent(new CustomEvent("epms:theme", { detail: theme }));
   }
 
@@ -60,7 +64,7 @@
         applyTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark");
       });
     }
-    applyTheme(document.documentElement.dataset.theme === "dark" ? "dark" : "light");
+    syncThemeControls(document.documentElement.dataset.theme === "dark" ? "dark" : "light");
   }
 
   function openAuthModal() {
@@ -111,11 +115,15 @@
   window.addEventListener("epms:navigate", (event) => navigate(event.detail));
   window.addEventListener("epms:select-unit", (event) => window.EpmsTrccLayout.selectUnit(event.detail));
   window.EpmsStore.subscribe((state) => {
-    const unread = state.alarms.filter((alarm) => !alarm.acknowledged).length;
+    // Keep the persistent sidebar badge synchronized without rerendering the workspace.
+    const unread = state.alarms.filter(function (alarm) {
+      return !alarm.acknowledged;
+    }).length;
     document.querySelectorAll(".unread-badge").forEach((badge) => {
       badge.textContent = unread;
       badge.hidden = unread === 0;
     });
+    // View subscribers can replace their topbar during live ticks, so restore header controls once.
     window.requestAnimationFrame(addHeaderControls);
   });
   applyTheme(getTheme());

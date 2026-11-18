@@ -233,7 +233,7 @@
       id: "alarm-" + Date.now() + "-" + unit.id,
       timestamp: Date.now(),
       severity: "TRIP",
-      device: unit.name.replace("-", "_").replace("-","_").toUpperCase(),
+      device: unit.name.replace("-", "_").toUpperCase(),
       field: unit.field,
       message: message,
       acknowledged: false
