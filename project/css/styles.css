@@ -35,11 +35,14 @@ button { cursor: pointer; }
 /* Theme, session, and responsive enhancements */
 .sidebar { position: fixed; inset: 0 auto 0 0; z-index: 40; height: 100vh; }
 .workspace { margin-left: var(--sidebar-width); }
-.global-header-controls { position: fixed; top: 8px; right: 15px; z-index: 45; display: flex; align-items: center; gap: 7px; }
-.global-header-controls .hamburger-button { display: none; }
 .hamburger-button { display: none; width: 27px; height: 27px; border: 1px solid var(--line); border-radius: 5px; background: var(--card); color: var(--ink); align-items: center; justify-content: center; padding: 5px; }
 .hamburger-button svg { width: 15px; fill: none; stroke: currentColor; stroke-width: 1.7; }
 .header-utility { display: flex; align-items: center; }
+.topbar { position: relative; z-index: 5; overflow: visible; }
+.topbar-actions, .trends-header-meta, .alarms-header-actions { min-width: 0; }
+.topbar-actions { justify-content: flex-end; flex-wrap: nowrap; }
+.trends-header-meta, .alarms-header-actions { justify-content: flex-end; flex-wrap: nowrap; }
+.header-utility { flex: 0 0 27px; margin-left: 2px; }
 .theme-toggle { width: 27px; height: 27px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 50%; background: var(--card); color: var(--text-secondary); padding: 6px; transition: transform .18s ease, background .18s ease, border-color .18s ease; }
 .theme-toggle:hover { transform: rotate(8deg); border-color: #94a3b8; }
 .theme-toggle svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
@@ -120,9 +123,6 @@ button { cursor: pointer; }
 [data-theme="dark"] .status-bar.warning-bar { background: #3f2d18; color: #fbbf24; }
 
 @media (max-width: 1024px) {
-  .global-header-controls { left: 12px; right: 12px; justify-content: space-between; pointer-events: none; }
-  .global-header-controls .hamburger-button { display: inline-flex; pointer-events: auto; }
-  .global-header-controls .theme-toggle { margin-left: auto; pointer-events: auto; }
   .sidebar { width: 240px; transform: translateX(-100%); transition: transform .24s cubic-bezier(.22,.61,.36,1); box-shadow: 12px 0 40px rgba(15,23,42,.18); }
   .drawer-open .sidebar { transform: translateX(0); }
   .drawer-open .drawer-backdrop { display: block; position: fixed; inset: 0; z-index: 35; background: rgba(15,23,42,.42); backdrop-filter: blur(2px); }

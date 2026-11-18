@@ -34,6 +34,33 @@
     const topbar = document.querySelector(".workspace .topbar");
     if (!topbar) return;
     topbar.classList.add("view-enter");
+
+    if (!topbar.querySelector(".hamburger-button")) {
+      const hamburger = document.createElement("button");
+      hamburger.type = "button";
+      hamburger.className = "hamburger-button";
+      hamburger.setAttribute("aria-label", "Open navigation");
+      hamburger.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>';
+      hamburger.addEventListener("click", () => document.body.classList.toggle("drawer-open"));
+      topbar.insertBefore(hamburger, topbar.firstChild);
+    }
+
+    if (!topbar.querySelector("[data-theme-toggle]")) {
+      const utility = document.createElement("div");
+      utility.className = "header-utility";
+      utility.innerHTML = '<button class="theme-toggle" data-theme-toggle type="button"></button>';
+
+      const actions = topbar.querySelector(".topbar-actions");
+      const meta = topbar.querySelector(".trends-header-meta, .alarms-header-actions");
+      if (actions) actions.appendChild(utility);
+      else if (meta) meta.appendChild(utility);
+      else topbar.appendChild(utility);
+
+      utility.querySelector("[data-theme-toggle]").addEventListener("click", () => {
+        applyTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark");
+      });
+    }
+    applyTheme(document.documentElement.dataset.theme === "dark" ? "dark" : "light");
   }
 
   function openAuthModal() {
@@ -74,10 +101,6 @@
     item.addEventListener("click", () => { navigate(item.dataset.viewTarget); closeDrawer(); });
   });
   document.querySelector(".logout").addEventListener("click", openAuthModal);
-  document.querySelector(".global-header-controls .hamburger-button").addEventListener("click", () => document.body.classList.toggle("drawer-open"));
-  document.querySelector("[data-theme-toggle]").addEventListener("click", () => {
-    applyTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark");
-  });
   document.querySelectorAll("[data-auth-close]").forEach((element) => element.addEventListener("click", closeAuthModal));
   document.getElementById("auth-form").addEventListener("submit", (event) => { event.preventDefault(); closeAuthModal(); });
   document.querySelector(".drawer-backdrop").addEventListener("click", closeDrawer);
