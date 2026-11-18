@@ -196,6 +196,66 @@
     notify({ type: "tick", timestamp: now });
   }
 
+  function toggleUnitPower(unitId) {
+    const unit = state.units.find(function (item) { return item.id === unitId; });
+    if (!unit) return false;
+    if (unit.status === "OFF") {
+      unit.status = "OK";
+      unit.htStatus = "HT ON";
+      const metrics = getMetrics(true, Number(unit.id.slice(-2)) % 9);
+      Object.keys(metrics).forEach(function (key) { unit[key] = metrics[key]; });
+    } else {
+      unit.status = "OFF";
+      unit.htStatus = "HT OFF";
+      ["primaryVoltage", "primaryCurrent", "pkSecVoltage", "secondaryCurrent", "power",
+        "scrAngle", "supplyVoltage", "idcSetpoint", "cr1", "cr2", "sparksPerMin", "arcsPerMin"]
+        .forEach(function (key) { unit[key] = 0; });
+    }
+    state.kpis = calculateKpis(state.units);
+    notify({ type: "unit-power", unitId: unitId, status: unit.status });
+    return true;
+  }
+
+  function injectUnitFault(unitId) {
+    const unit = state.units.find(function (item) { return item.id === unitId; });
+    if (!unit) return false;
+    const fault = unit.field === 1 ? "P-OC" : unit.field === 2 ? "OIL" : "HT-IL";
+    unit.status = "TRIP";
+    unit.htStatus = "HT OFF";
+    unit.faults[fault] = true;
+    unit.power = 0;
+    unit.primaryVoltage = 0;
+    unit.primaryCurrent = 0;
+    unit.pkSecVoltage = 0;
+    unit.secondaryCurrent = 0;
+    const message = fault === "P-OC" ? "Primary OC Trip" : fault === "OIL" ? "Oil Fault Trip" : "HT Interlock Open";
+    state.alarms.unshift({
+      id: "alarm-" + Date.now() + "-" + unit.id,
+      timestamp: Date.now(),
+      severity: "TRIP",
+      device: unit.name.replace("-", "_").replace("-","_").toUpperCase(),
+      field: unit.field,
+      message: message,
+      acknowledged: false
+    });
+    state.kpis = calculateKpis(state.units);
+    notify({ type: "unit-fault", unitId: unitId, fault: fault });
+    return true;
+  }
+
+  function clearUnitFaults(unitId) {
+    const unit = state.units.find(function (item) { return item.id === unitId; });
+    if (!unit) return false;
+    Object.keys(unit.faults).forEach(function (fault) { unit.faults[fault] = false; });
+    unit.status = "OK";
+    unit.htStatus = "HT ON";
+    const metrics = getMetrics(true, Number(unit.id.slice(-2)) % 9);
+    Object.keys(metrics).forEach(function (key) { unit[key] = metrics[key]; });
+    state.kpis = calculateKpis(state.units);
+    notify({ type: "unit-fault-cleared", unitId: unitId });
+    return true;
+  }
+
   function startSimulation() {
     if (intervalId !== null) {
       return;
@@ -261,6 +321,9 @@
       }
       return state.simulation.running;
     },
+    toggleUnitPower: toggleUnitPower,
+    injectUnitFault: injectUnitFault,
+    clearUnitFaults: clearUnitFaults,
     startSimulation: startSimulation,
     stopSimulation: stopSimulation
   };

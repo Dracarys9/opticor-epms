@@ -29,4 +29,10 @@ The Google Fonts and Chart.js resources are loaded from their CDNs. An internet 
 
 ## Optional enhancements
 
-No optional enhancements were enabled beyond the requested core screens. The existing Trends `Thresholds` and CSV controls remain presentation placeholders, while the simulator, alarm acknowledgement, and live chart updates are fully functional.
+- Industrial dark mode with persistent `localStorage` preference and dynamic Chart.js grid/tick colors
+- Glassmorphic operator authentication modal triggered by the sidebar Logout action
+- Responsive slide-over sidebar and 2x2 KPI layout below 1024px
+- Card elevation, view fade transitions, and pulsing LIVE status indicators
+- TRCC inspector simulator controls for power toggling, fault injection, and fault reset
+- Configurable live Trends threshold limits with timestamped violation logging
+- Browser CSV downloads for selected trend telemetry and filtered alarm rows

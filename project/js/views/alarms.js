@@ -32,6 +32,19 @@
     });
   }
 
+  function downloadCsv(filename, rows) {
+    const csv = rows.map((row) => row.map((value) => `"${String(value).replace(/"/g, '""')}"`).join(",")).join("\r\n");
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.setTimeout(() => URL.revokeObjectURL(url), 500);
+  }
+
   function render(state) {
     const activeTrips = state.alarms.filter((alarm) => alarm.severity === "TRIP" && !alarm.acknowledged).length;
     const activeAlarms = state.alarms.filter((alarm) => alarm.severity === "ALARM" && !alarm.acknowledged).length;
@@ -40,7 +53,7 @@
     const rows = filteredAlarms(state);
 
     document.getElementById("workspace").innerHTML = `
-      <header class="topbar alarms-topbar"><h1>Alarms &amp; Notifications</h1><div class="alarms-header-actions"><span class="alarm-live"><i></i> Live • 2s refresh</span><button class="ack-all-button" type="button">Acknowledge All Active</button></div></header>
+      <header class="topbar alarms-topbar"><h1>Alarms &amp; Notifications</h1><div class="alarms-header-actions"><span class="alarm-live"><i></i> Live • 2s refresh</span><button class="alarm-export-button" type="button">Export CSV</button><button class="ack-all-button" type="button">Acknowledge All Active</button></div></header>
       <section class="alarms-view">
         <div class="alarm-kpis">
           <article class="alarm-kpi blue"><span>TOTAL ALARMS</span><strong>${state.alarms.length}</strong><small>In log</small></article>
@@ -60,6 +73,16 @@
     document.getElementById("alarm-device").value = device;
     document.getElementById("alarm-status").value = status;
     document.querySelector(".ack-all-button").addEventListener("click", () => window.EpmsStore.acknowledgeAll());
+    document.querySelector(".alarm-export-button").addEventListener("click", () => {
+      const csvRows = [
+        ["Timestamp", "Severity", "Device", "Field", "Fault Type", "Message", "Status"],
+        ...rows.map((alarm) => [
+          new Date(alarm.timestamp).toISOString(), alarm.severity, alarm.device, alarm.field,
+          alarm.message, alarm.message, alarm.acknowledged ? "Acknowledged" : "Active"
+        ])
+      ];
+      downloadCsv("opticor-alarms-export.csv", csvRows);
+    });
     document.querySelectorAll("[data-severity]").forEach((button) => button.addEventListener("click", () => {
       severity = button.dataset.severity;
       render(window.EpmsStore.getState());

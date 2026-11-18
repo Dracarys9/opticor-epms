@@ -29,7 +29,7 @@
       <section class="trcc-view">
         <div class="trcc-filterbar"><div class="filter-pills">${["ALL", "TRIP", "ALARM", "OK", "OFF"].map((status) => `<button class="filter-pill ${status === activeFilter ? "selected" : ""}" data-filter="${status}">${status === "ALL" ? "All" : status} <b>(${counts[status]})</b></button>`).join("")}</div><label class="metric-select">Value <select id="metric-select"><option value="power">Power (kW)</option><option value="primaryVoltage">Primary Voltage</option><option value="secondaryCurrent">Secondary Current</option></select></label><div class="trcc-legend"><span><i class="legend-online"></i>OK</span><span><i class="legend-alarm"></i>Alarm</span><span><i class="legend-trip"></i>Trip</span><span><i class="legend-off"></i>Off</span></div></div>
         <div class="trcc-split"><div class="field-list">${[1, 2, 3, 4, 5, 6].map((field) => `<section class="field-section"><h2>FIELD ${field} <span>(OPTICOR ${String((field - 1) * 12 + 1).padStart(2, "0")}-${String(field * 12).padStart(2, "0")})</span></h2><div class="field-grid">${state.units.filter((unit) => unit.field === field).map((unit) => `<button class="unit-tile ${unit.status.toLowerCase()} ${unit.id === selected.id ? "selected" : ""}" data-unit-id="${unit.id}" ${activeFilter !== "ALL" && unit.status !== activeFilter ? "hidden" : ""}><span class="unit-dot"></span><strong>${unit.id.slice(-2)}</strong><small>${value(unit, metricKey)}</small></button>`).join("")}</div></section>`).join("")}</div>
-          <aside class="inspector"><div class="inspector-head"><div><h2>${selected.name}</h2><div class="inspector-pills"><span class="status-pill ${selected.status.toLowerCase()}">${selected.status}</span><span class="status-pill">${selected.htStatus}</span></div></div><button class="trends-button" type="button">⌁ Trends</button></div><h3>ELECTRICAL</h3><div class="electrical-grid">${metrics.map((metric) => `<div class="metric-card"><span>${metric[1]}</span><strong>${value(selected, metric[0])}</strong></div>`).join("")}</div><h3>FAULT STATUS</h3><div class="fault-grid">${faultNames.map((fault) => `<span class="fault-pill ${selected.faults[fault] ? "active" : ""}">${fault}<b>${selected.faults[fault] ? "ON" : "OK"}</b></span>`).join("")}</div></aside>
+          <aside class="inspector"><div class="inspector-head"><div><h2>${selected.name}</h2><div class="inspector-pills"><span class="status-pill ${selected.status.toLowerCase()}">${selected.status}</span><span class="status-pill">${selected.htStatus}</span></div></div><button class="trends-button" type="button">⌁ Trends</button></div><h3>ELECTRICAL</h3><div class="electrical-grid">${metrics.map((metric) => `<div class="metric-card"><span>${metric[1]}</span><strong>${value(selected, metric[0])}</strong></div>`).join("")}</div><h3>FAULT STATUS</h3><div class="fault-grid">${faultNames.map((fault) => `<span class="fault-pill ${selected.faults[fault] ? "active" : ""}">${fault}<b>${selected.faults[fault] ? "ON" : "OK"}</b></span>`).join("")}</div><section class="simulator-controls"><h3>SIMULATOR CONTROLS</h3><div><button type="button" data-sim-action="power">${selected.status === "OFF" ? "Toggle Power (ON)" : "Toggle Power (OFF)"}</button><button type="button" data-sim-action="inject">Inject Fault</button><button type="button" data-sim-action="clear">Clear Faults</button></div></section></aside>
         </div>
       </section>`;
 
@@ -49,6 +49,11 @@
     document.querySelectorAll("[data-filter]").forEach((item) => item.addEventListener("click", () => {
       activeFilter = item.dataset.filter;
       render(window.EpmsStore.getState());
+    }));
+    document.querySelectorAll("[data-sim-action]").forEach((item) => item.addEventListener("click", () => {
+      if (item.dataset.simAction === "power") window.EpmsStore.toggleUnitPower(selectedId);
+      if (item.dataset.simAction === "inject") window.EpmsStore.injectUnitFault(selectedId);
+      if (item.dataset.simAction === "clear") window.EpmsStore.clearUnitFaults(selectedId);
     }));
   }
 
